@@ -1,0 +1,45 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Demo
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v6
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Test code
+        run: npm run test
+      - name: Build Code
+        run: npm run build
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist-files
+          path: |
+            dist  
+            package.json
+
+  deploy:
+    name: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy Code
+        run: echo "Deploying..."
+
+      
